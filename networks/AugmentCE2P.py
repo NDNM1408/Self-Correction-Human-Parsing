@@ -313,21 +313,23 @@ class ResNet(nn.Module):
         return [[parsing_result, fusion_result], [edge_result]]
 
 
-def initialize_pretrained_model(model, settings, pretrained='./models/resnet101-imagenet.pth'):
+# def initialize_pretrained_model(model, settings, pretrained='./models/resnet101-imagenet.pth'):
+def initialize_pretrained_model(model, settings, pretrained=None):
+
     model.input_space = settings['input_space']
     model.input_size = settings['input_size']
     model.input_range = settings['input_range']
     model.mean = settings['mean']
     model.std = settings['std']
 
-    if pretrained is not None:
-        saved_state_dict = torch.load(pretrained)
-        new_params = model.state_dict().copy()
-        for i in saved_state_dict:
-            i_parts = i.split('.')
-            if not i_parts[0] == 'fc':
-                new_params['.'.join(i_parts[0:])] = saved_state_dict[i]
-        model.load_state_dict(new_params)
+    # if pretrained is not None:
+    #     saved_state_dict = torch.load(pretrained)
+    #     new_params = model.state_dict().copy()
+    #     for i in saved_state_dict:
+    #         i_parts = i.split('.')
+    #         if not i_parts[0] == 'fc':
+    #             new_params['.'.join(i_parts[0:])] = saved_state_dict[i]
+    #     model.load_state_dict(new_params)
 
 
 def resnet101(num_classes=20, pretrained='./models/resnet101-imagenet.pth'):
